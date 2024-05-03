@@ -39,3 +39,29 @@ export const SignInValidationSchema = Yup.object({
     .max(10, '6글자 이상 10글자 이하로 입력해주세요.')
     .required('비밀번호를 입력해주세요.'),
 });
+
+export const PasswordFindValidationSchema = Yup.object({
+  email: Yup.string()
+    .matches(
+      /^[^@\s]+@[^@\s]+\.[^@\s]+$/,
+      '이름 또는 이메일을 잘못 입력했습니다.입력하신 내용을 다시 확인해주세요.',
+    )
+    .required('이메일을 입력해주세요.'),
+  name: Yup.string()
+    .matches(/^[가-힣]{2,4}$/, undefined)
+    .required('이름을 입력해주세요.'),
+});
+
+export const PasswordChangeValidationSchema = Yup.object({
+  password: Yup.string()
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,10}$/,
+      '6~10자의 영문, 숫자를 조합해서 입력하세요.',
+    )
+    .min(6, '6글자 이상 10글자 이하로 입력해주세요.')
+    .max(10, '6글자 이상 10글자 이하로 입력해주세요.')
+    .required('비밀번호를 입력해주세요.'),
+  passwordConfirm: Yup.string()
+    .oneOf([Yup.ref('password'), null], '비밀번호가 일치하지 않습니다.')
+    .required('비밀번호를 한번 더 입력해주세요.'),
+});
